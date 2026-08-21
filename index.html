@@ -120,6 +120,7 @@ body {
   flex: 1;
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
+  min-height: 0;
 }
 .form-body.hidden { display: none; }
 
@@ -345,6 +346,131 @@ select {
   box-shadow: 0 4px 20px rgba(26,43,94,.30);
 }
 .toast.show { opacity: 1; }
+
+/* ═══════════════════════════════════════════════════════════════════
+   RESPONSIVE — Mobile & Tablet
+   ═══════════════════════════════════════════════════════════════════ */
+
+/* ── Tablet portrait (up to 900px) ─────────────────────────────── */
+@media (max-width: 900px) {
+  :root {
+    --strip: 40px;
+    --top-strip: 54px;
+  }
+  .card { max-width: 100%; }
+  .card-header { padding: 16px 24px 14px; }
+  .logo-img { width: 130px; }
+  .page-title { font-size: 17px; }
+  .page-sub { font-size: 11.5px; }
+  .form-body { padding: 18px 24px 0; gap: 18px; }
+  .card-footer { padding: 12px 24px 16px; }
+  .btn-submit { height: 56px; font-size: 15px; }
+}
+
+/* ── Mobile (up to 600px) ───────────────────────────────────────── */
+@media (max-width: 600px) {
+  :root {
+    --strip: 0px;
+    --top-strip: 44px;
+  }
+
+  /* Allow full-page scroll on mobile */
+  html, body { height: auto; overflow: auto; }
+
+  /* Simplified shell: stack top / content / bottom, no side strips */
+  .shell {
+    height: auto;
+    min-height: 100vh;
+    grid-template:
+      "top"  var(--top-strip)
+      "main" 1fr
+      "bot"  var(--top-strip)
+      / 1fr;
+  }
+  .bdr-side { display: none; }
+
+  /* Main area: natural height, no overflow clip */
+  .main {
+    padding: 12px 12px 16px;
+    overflow-y: visible;
+    align-items: stretch;
+  }
+
+  /* Card: full height, natural scroll */
+  .card {
+    max-height: none;
+    border-radius: 6px;
+  }
+
+  /* Card header */
+  .card-header {
+    padding: 14px 16px 12px;
+    gap: 6px;
+  }
+  .logo-img { width: 110px; }
+  .eyebrow { font-size: 8px; }
+  .page-title { font-size: 15px; }
+  .page-sub { font-size: 11px; }
+
+  /* Form body */
+  .form-body {
+    padding: 14px 16px 0;
+    gap: 16px;
+    overflow-y: visible;
+    flex: none;
+  }
+
+  /* Single-column field grid on mobile */
+  .grid { grid-template-columns: 1fr; gap: 10px; }
+  .field.span2 { grid-column: 1; }
+
+  /* Smaller inputs */
+  input, select {
+    height: 46px !important;
+    font-size: 14px !important;
+  }
+
+  /* 2-column chips on mobile */
+  .chips { grid-template-columns: 1fr 1fr; gap: 8px; }
+  .chip label {
+    height: 48px;
+    font-size: 12px;
+  }
+
+  /* Lookup */
+  .lookup-input { height: 46px; font-size: 14px; }
+  .lookup-dropdown { max-height: 200px; }
+
+  /* Section labels */
+  .section-label { font-size: 9px; }
+
+  /* Card footer */
+  .card-footer { padding: 12px 16px 14px; }
+  .btn-submit { height: 52px; font-size: 14px; }
+
+  /* Thanks screen */
+  .thanks { padding: 28px 16px; gap: 14px; }
+  .check-ring { width: 64px; height: 64px; }
+  .thanks-name { font-size: 22px; }
+  .thanks-msg { font-size: 13px; }
+
+  /* Toast */
+  .toast {
+    bottom: 16px;
+    font-size: 12px;
+    padding: 10px 16px;
+    max-width: 90vw;
+    white-space: normal;
+    text-align: center;
+  }
+}
+
+/* ── Very small phones (up to 380px) ───────────────────────────── */
+@media (max-width: 380px) {
+  .page-title { font-size: 13px; }
+  .logo-img { width: 90px; }
+  .chips { grid-template-columns: 1fr; }
+}
 </style>
 </head>
 <body>
