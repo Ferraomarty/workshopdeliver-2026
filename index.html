@@ -216,6 +216,97 @@ select {
   background: #7A1B1C;
 }
 
+/* ── Tour buttons ────────────────────────────────────────────────── */
+.tour-btns {
+  display: flex;
+  gap: 8px;
+}
+.tour-btn {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  flex: 1;
+  padding: 11px 10px;
+  border: 1.5px solid #cdd2dc;
+  border-radius: 8px;
+  background: #f8f9fb;
+  cursor: pointer;
+  user-select: none;
+  text-align: center;
+  transition: border-color .16s, background .16s, box-shadow .16s, transform .12s;
+  -webkit-tap-highlight-color: transparent;
+}
+.tour-btn input {
+  position: absolute; opacity: 0; width: 0; height: 0;
+}
+.tour-icon {
+  width: 26px; height: 26px;
+  display: flex; align-items: center; justify-content: center;
+  border-radius: 50%;
+  background: #e2e6ee;
+  font-size: 12px;
+  font-weight: 800;
+  color: #7a8499;
+  flex-shrink: 0;
+  transition: background .16s, color .16s;
+}
+.tour-text {
+  font-family: var(--font);
+  font-size: 12.5px;
+  font-weight: 700;
+  color: #5a6278;
+  line-height: 1.25;
+  letter-spacing: .01em;
+  transition: color .16s;
+  text-align: left;
+}
+.tour-pt {
+  font-weight: 400;
+  font-size: 11px;
+  opacity: .65;
+  display: block;
+}
+.tour-btn:hover {
+  border-color: #b0b8cc;
+  background: #fff;
+}
+/* Yes → teal */
+.tour-yes:has(input:checked) {
+  border-color: var(--teal);
+  background: rgba(45,140,122,.08);
+  box-shadow: 0 3px 12px rgba(45,140,122,.20);
+  transform: translateY(-1px);
+}
+.tour-yes:has(input:checked) .tour-icon {
+  background: var(--teal); color: #fff;
+}
+.tour-yes:has(input:checked) .tour-text { color: var(--teal); }
+/* No → maroon */
+.tour-no:has(input:checked) {
+  border-color: var(--maroon);
+  background: rgba(140,31,32,.07);
+  box-shadow: 0 3px 12px rgba(140,31,32,.18);
+  transform: translateY(-1px);
+}
+.tour-no:has(input:checked) .tour-icon {
+  background: var(--maroon); color: #fff;
+}
+.tour-no:has(input:checked) .tour-text { color: var(--maroon); }
+/* N/A → navy */
+.tour-na:has(input:checked) {
+  border-color: var(--navy);
+  background: rgba(26,43,94,.07);
+  box-shadow: 0 3px 12px rgba(26,43,94,.15);
+  transform: translateY(-1px);
+}
+.tour-na:has(input:checked) .tour-icon {
+  background: var(--navy); color: #fff;
+}
+.tour-na:has(input:checked) .tour-text { color: var(--navy); }
+
 /* ── Submit ──────────────────────────────────────────────────────── */
 
 /* ── Participant lookup ──────────────────────────────────────────── */
@@ -436,6 +527,11 @@ select {
     height: 48px;
     font-size: 12px;
   }
+  .tour-btns { gap: 6px; }
+  .tour-btn { padding: 10px 7px; gap: 6px; }
+  .tour-icon { width: 22px; height: 22px; font-size: 10px; }
+  .tour-text { font-size: 11.5px; }
+  .tour-pt { font-size: 10px; }
 
   /* Lookup */
   .lookup-input { height: 46px; font-size: 14px; }
@@ -490,7 +586,7 @@ select {
              alt="DELIVER — Developing Leadership and Innovation in Viral Eradication Research">
         <div class="eyebrow">Workshop · Maputo 2026</div>
         <h1 class="page-title">Participant Registration / Registo de Participante</h1>
-        <p class="page-sub">Fill in your details to confirm participation · Preencha os seus dados para confirmar a participação</p>
+        <p class="page-sub">Please fill in your details to confirm your participation in the study tour · Preencha os seus dados para confirmar a sua participação na visita de estudo</p>
       </div>
 
       <!-- Form -->
@@ -557,7 +653,33 @@ select {
             </div>
           </div>
 
-
+          <!-- Tour confirmation -->
+          <div class="section">
+            <div class="section-label">Maputo City Tour / Tour Pela Cidade de Maputo</div>
+            <p style="font-size:13px;color:var(--navy);opacity:.72;margin:0 0 6px;line-height:1.55;">
+              Would you like to join the Maputo city tour? / Deseja participar no tour pela cidade de Maputo?
+            </p>
+            <p style="font-size:11.5px;color:var(--teal);font-weight:600;margin:0 0 14px;letter-spacing:.01em;">
+              Please select an option below to confirm your interest in the Maputo city tour.
+            </p>
+            <div class="tour-btns">
+              <label class="tour-btn tour-yes">
+                <input type="radio" name="tour" value="yes">
+                <span class="tour-icon">✓</span>
+                <span class="tour-text">Yes <span class="tour-pt">/ Sim</span></span>
+              </label>
+              <label class="tour-btn tour-no">
+                <input type="radio" name="tour" value="no">
+                <span class="tour-icon">✗</span>
+                <span class="tour-text">No <span class="tour-pt">/ Não</span></span>
+              </label>
+              <label class="tour-btn tour-na">
+                <input type="radio" name="tour" value="na">
+                <span class="tour-icon">—</span>
+                <span class="tour-text">Not Applicable <span class="tour-pt">/ Não Aplicável</span></span>
+              </label>
+            </div>
+          </div>
 
         </form>
       </div>
@@ -620,6 +742,9 @@ function validate() {
   if (!/.+@.+\..+/.test(v('email'))) {
     showToast('Por favor, introduza um email válido.'); return false;
   }
+  if (!getRadio('tour')) {
+    showToast('Por favor, indique se deseja participar na visita de estudo.'); return false;
+  }
   return true;
 }
 
@@ -653,6 +778,7 @@ form.addEventListener('submit', async e => {
     name: fname + ' ' + lname, fname, lname,
     inst: v('inst'), role: v('role'),
     country: v('country'), email: v('email'),
+    tour: getRadio('tour'),
     ts: new Date().toISOString()
   };
 
